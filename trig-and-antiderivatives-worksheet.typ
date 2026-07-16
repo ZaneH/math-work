@@ -29,15 +29,15 @@
 #set text(size: 11pt, font: "New Computer Modern")
 #set par(justify: true)
 
-#set heading(numbering: none)
+#set heading(numbering: "1.1.")
 #show heading.where(level: 1): it => {
-  block(above: 18pt, below: 8pt)[
-    #text(size: 14pt, weight: "bold", fill: kernelblue)[#it.body]
+  block(above: 18pt, below: 12pt)[
+    #text(size: 14pt, weight: "bold", fill: kernelblue)[#counter(heading).display() #it.body]
   ]
 }
 #show heading.where(level: 2): it => {
-  block(above: 16pt, below: 6pt)[
-    #text(size: 11pt, weight: "bold")[#it.body]
+  block(above: 16pt, below: 8pt)[
+    #text(size: 11pt, weight: "bold")[#counter(heading).display() #it.body]
   ]
 }
 #show math.equation.where(block: true): set align(center)
@@ -85,10 +85,10 @@
 ]
 
 // Space to work
-#let workspace(lines: 5) = {
+#let workspace(lines: 5, title: "Try it yourself:") = {
   v(6pt)
   text(size: 10pt, style: "italic", fill: kernelblue-dark)[
-    Try it yourself:
+    #title
   ]
   for i in range(1, lines) {
     v((lines) * 1pt)
@@ -117,7 +117,7 @@
 
 #v(8pt)
 
-= The Kernel: Three Facts Worth Memorizing
+= The Kernel: Three Facts Worth Memorizing <the-kernel>
 
 #kernelbox[
   + *Unit circle definition.* For a point $(x, y)$ on the unit circle at angle $theta$:
@@ -275,14 +275,14 @@ does to a point on the unit circle.
   $sin(30 degree) = 1/2$ but $sin(-30 degree) = -1/2$ --- flipped sign, exactly as "odd" promises.
 
   Everything else on this list requires no new geometry at all, just substitution into the ratio
-  definitions from 1.1. For instance:
+  definitions from @the-kernel. For instance:
 
   $ tan(-theta) = sin(-theta)/cos(-theta) = (-sin(theta))/cos(theta) = -tan(theta) $
 
   so tangent is odd too.
 ]
 
-#appbox([Where this earns its keep: killing a definite integral for free])[
+#appbox([Where this is useful: killing a definite integral for free])[
   Here's a genuinely useful shortcut this identity buys you. Suppose you're asked to evaluate
   $integral_(-pi)^(pi) sin(x) med d x$. You could grind through the antiderivative and evaluate at both
   endpoints --- or you could notice that $sin x$ is odd, and the interval $[-pi, pi]$ is symmetric about
@@ -293,8 +293,9 @@ does to a point on the unit circle.
   and symmetric-interval problems generally.
 ]
 
-#workspace(lines: 2)
-Your turn: using the same substitution-into-1.1 approach as the $tan(-theta)$ example above, work out
+#pagebreak()
+
+Using the same substitution-into-1.1 approach as the $tan(-theta)$ example above, work out
 whether $csc theta$, $sec theta$, and $cot theta$ are each even or odd. Write out the substitution for all
 three, don't just guess the pattern.
 #workspace(lines: 6)
@@ -311,38 +312,49 @@ they're complements of each other, and the side that's "opposite" one of them is
 which is exactly why $sin$ of one angle equals $cos$ of the other.
 
 #stepbox([What does swapping to angle $pi/2 - theta$ do to $(x, y)$?])[
-  Reflecting a point across the line $y = x$ swaps its coordinates: $(x, y) arrow.r (y, x)$. Here's the
-  geometric fact that makes this section work: that reflection is exactly the same move as rotating from
-  angle $theta$ to angle $pi/2 - theta$. Don't just take that on faith --- check it with a concrete angle.
-  If $theta = 30 degree$, then $pi/2 - theta = 60 degree$. Reflect the $30 degree$ point across the line
-  $y = x$, and you do indeed land exactly on the $60 degree$ point. (Try sketching both points on a unit
-  circle if that helps it click.)
+  Reflecting a point across the line $y = x$ swaps its coordinates: $(x, y) arrow.r (y, x)$. This reflection
+  is exactly the same move as rotating from angle $theta$ to angle $pi/2 - theta$. Check this with a concrete
+  angle. If $theta = 30 degree$, then $pi/2 - theta = 60 degree$. Reflect the first point across the
+  line $y = x$, and you land exactly on the $60 degree$ point. (Try sketching both points on the unit circle.)
 
-  So the point sitting at angle $pi/2 - theta$ has coordinates $(y, x)$ --- the original coordinates,
-  swapped. Match that against the definition $(cos(pi/2 - theta), sin(pi/2 - theta))$:
+  #align(center)[
+    #canvas({
+      import draw: *
+
+      circle((0,0), radius: 2)
+
+      line((-2.5, 0), (2.5, 0))
+      content((), $ x $, anchor: "west")
+      line((0, -2.5), (0, 2.5))
+      content((), $ y $, anchor: "south")
+    })
+  ]
+
+  Now knowing that the point sitting at angle $pi/2 - theta$ has coordinates $(y, x)$ --- the original
+  coordinates, swapped. Match that against the definition $(cos(pi/2 - theta), sin(pi/2 - theta))$:
 
   $ cos(pi/2 - theta) = y = sin(theta) quad quad sin(pi/2 - theta) = x = cos(theta) $
 
   The remaining pairs, $sec arrow.l.r csc$ and $tan arrow.l.r cot$, follow immediately by plugging this
-  result into the ratio definitions back in 1.1 --- no new geometry needed, just bookkeeping.
+  result into the ratio definitions back in 1.1 --- no new geometry, just booking.
 ]
 
-#appbox([Where this earns its keep: a right-triangle check])[
-  Take a classic $30$-$60$-$90$ triangle. The two acute angles, $30 degree$ and $60 degree$, are complements
-  of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$ --- identical, as the
-  cofunction formula promises. This is why, if you ever forget whether it's sine or cosine that's small
-  near $0 degree$, you can reconstruct it from the triangle picture rather than a memorized table.
-]
+Take a classic $30$-$60$-$90$ triangle. The two acute angles, $30 degree$ and $60 degree$, are complements
+of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$. This matches the confunction
+definition.
 
 #workspace(lines: 3)
 
+#pagebreak()
+
 == Double angle formulas
 
-These fall directly out of the angle sum formulas in the kernel --- a "double" angle is nothing more
+These fall directly out of the angle sum formulas in the kernel (1.3) --- a "double" angle is nothing more
 exotic than a sum angle where the two pieces happen to be identical. If you can add $alpha + beta$, you can
-already handle $alpha + alpha$.
+handle $alpha + alpha$.
 
 #stepbox([Set $beta = alpha$ in the angle sum formulas])[
+  $ 2 alpha = alpha + beta $
   $ sin(2 alpha) = sin(alpha + alpha) = sin(alpha)cos(alpha) + cos(alpha)sin(alpha) = 2 sin(alpha)cos(alpha) $
   $ cos(2 alpha) = cos(alpha + alpha) = cos(alpha)cos(alpha) - sin(alpha)sin(alpha) = cos^2 (alpha) - sin^2 (alpha) $
 
@@ -366,7 +378,7 @@ already handle $alpha + alpha$.
   $cos^2 x$ --- two integrals that show up constantly and that the power rule alone can't touch.
 ]
 
-#workspace(lines: 3)
+#workspace(lines: 3, title: [Try to derive the 4 double-angle identities for $cos(2 alpha)$ and $sin(2 alpha)$ yourself:])
 
 #pagebreak()
 
@@ -377,9 +389,7 @@ solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're not introducin
 --- just isolating a different variable in an equation we already have.
 
 #stepbox([Solve the double-angle forms for $sin^2 (alpha)$ and $cos^2 (alpha)$])[
-  Take $cos(2 alpha) = 1 - 2 sin^2 (alpha)$ from the previous page, and isolate $sin^2 (alpha)$ the way
-  you'd isolate any variable in an algebra equation --- move it to one side, everything else to the other,
-  divide by its coefficient:
+  Using the double-angle identity $cos(2 alpha) = 1 - 2 sin^2 (alpha)$ from the previous page, we isolate $sin^2 (alpha)$.
 
   $ 2 sin^2 (alpha) = 1 - cos(2 alpha) quad arrow.r.double quad sin^2 (alpha) = (1 - cos(2 alpha))/2 $
 
@@ -387,15 +397,16 @@ solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're not introducin
 
   $ 2 cos^2 (alpha) = 1 + cos(2 alpha) quad arrow.r.double quad cos^2 (alpha) = (1 + cos(2 alpha))/2 $
 
-  These two boxed results are already the "power-reducing" formulas --- the ones you'll actually reach for
-  during integration. If instead you want the classical half-angle formulas stated in terms of $theta/2$,
-  relabel $theta = 2 alpha$ (so $alpha = theta/2$) and take a square root of both sides, choosing the sign
-  based on which quadrant $theta/2$ falls in. Dividing the two boxed equations, rather than taking square
-  roots, also hands you $tan^2 (theta/2)$ directly --- worth noticing since it avoids a square root
-  entirely.
+  These two results are already the "power-reducing" ($cos^2(theta) arrow.r cos(theta)$) formulas --- the
+  ones you'll actually reach for during integration. If instead you want the classical half-angle formulas
+  stated in terms of $theta/2$, relabel $theta = 2 alpha$ (so $alpha = theta/2$) and take a square root of
+  both sides, choosing the sign based on which quadrant $theta/2$ falls in.
+
+  By dividing the two equations, rather than taking square roots you're also given $tan^2 (theta/2)$
+  directly --- worth noticing since it avoids a square root entirely.
 ]
 
-#appbox([Where this earns its keep: integrating $sin^2 x$])[
+#appbox([Where this is useful: integrating $sin^2 x$])[
   This is arguably the single most common use of any identity on this entire page. Try to integrate
   $sin^2 x$ directly and you're stuck --- there's no power rule for trig functions, and nothing in our
   kernel list of antiderivatives matches $sin^2 x$ as written. But substitute the power-reducing form we
@@ -416,8 +427,8 @@ solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're not introducin
 
 == Product-to-sum formulas
 
-This is the section that trips people up most often, so let's go slower than the rest of the page. The
-angle sum and angle difference formulas for sine share two ingredients:
+This is the section that trips people up most often, so let's go slow. The angle sum and angle difference
+formulas for sine share two ingredients:
 
 $ sin(alpha + beta) = sin(alpha)cos(beta) + cos(alpha)sin(beta) $
 $ sin(alpha - beta) = sin(alpha)cos(beta) - cos(alpha)sin(beta) $
@@ -434,11 +445,7 @@ the two pieces disappear entirely. That's the whole strategy here.
   $ sin(alpha + beta) + sin(alpha - beta) =
     [sin(alpha)cos(beta) + cos(alpha)sin(beta)] + [sin(alpha)cos(beta) - cos(alpha)sin(beta)] $
 
-  Now collect like terms on the right, exactly the way you would in any algebra simplification --- group
-  the two $sin(alpha)cos(beta)$ pieces together, and group the two $cos(alpha)sin(beta)$ pieces together.
-  The second group cancels exactly to zero, since it's a term minus that same term. That's the entire point
-  of choosing to _add_ these two particular equations: it was designed to make that term vanish. What's
-  left is:
+  After simplifying:
 
   $ sin(alpha + beta) + sin(alpha - beta) = 2 sin(alpha)cos(beta) $
 
@@ -448,7 +455,7 @@ the two pieces disappear entirely. That's the whole strategy here.
   is $2 sin(60 degree)cos(30 degree) = 2 dot sqrt(3)/2 dot sqrt(3)/2 = 2 dot 3/4 = 1.5$. They match.
 ]
 
-#appbox([Where this earns its keep: integrating a product of two different frequencies])[
+#appbox([Where this is useful: integrating a product of two different frequencies])[
   Suppose you're asked to integrate $sin(3x)cos(x)$. There's no product rule for integration, and
   $u$-substitution doesn't obviously apply either, since neither factor is the derivative of the other. But
   rewrite the product using what we just derived (with $alpha = 3x, beta = x$):
@@ -465,8 +472,7 @@ the two pieces disappear entirely. That's the whole strategy here.
   is literally what $3x$ and $x$ represent.
 ]
 
-#workspace(lines: 3)
-Now do the subtraction case yourself, following the identical bookkeeping. Subtract the two equations
+Now do the subtraction case yourself, following the same steps. Subtract the two equations
 instead of adding them (first equation minus second), track which term cancels this time instead of the one
 that cancelled above, and see what product you end up isolating.
 #workspace(lines: 6)
@@ -496,7 +502,7 @@ it's the product-to-sum result from the previous page, just relabeled.
   "I have $sin x + sin y$, can I write it as a product?" rather than the reverse question 1.7 answered.
 ]
 
-#appbox([Where this earns its keep: solving an equation, not integrating one])[
+#appbox([Where this is useful: solving an equation, not integrating one])[
   Suppose you need to solve $sin(5x) + sin(x) = 0$. Written as a sum, it's not obvious how to proceed. But
   rewrite the left side as a product using what we just derived (with $x arrow.r 5x, med y arrow.r x$):
 
@@ -585,7 +591,7 @@ Pythagorean identity. Nothing here is new machinery.
   $ (d y)/(d x) = 1/(1+x^2) quad arrow.r.double quad integral 1/(1+x^2) med d x = tan^(-1) (x) + C $
 ]
 
-#appbox([Where this earns its keep: partial fractions in Calc II])[
+#appbox([Where this is useful: partial fractions in Calc II])[
   Hang onto this one. When you eventually do partial fraction decomposition on rational functions, you'll
   regularly end up with a leftover piece that looks like $1/(x^2+4)$ or similar --- an irreducible
   quadratic in the denominator that no amount of algebra simplifies further. That's precisely the shape
