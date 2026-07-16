@@ -118,7 +118,7 @@
   standard calculus reference sheet, is downstream of a small handful of facts. That means you're not
   memorizing forty formulas --- you're memorizing about eight. This worksheet is meant to be worked,
   not read. Follow each derivation more than once over the next few weeks; the goal is for the
-  associations to become automatic.
+  associations to become automatic. Generative AI was used to create this document.
 ]
 
 #v(8pt)
@@ -142,55 +142,6 @@
 #pagebreak()
 
 #import "@preview/cetz:0.5.1": canvas, draw
-
-= The Derivation Tree
-
-Here's the map of where we're headed. Notice that most branches are only one or two steps removed from
-the kernel --- nothing on this page is more than a short walk away from something you already know.
-
-#canvas(length: 1pt, {
-  import draw: *
-
-  let node(pos, w, label, root: false) = {
-    let (px, py) = pos
-    rect(
-      (px - w/2, py - 12),
-      (px + w/2, py + 12),
-      fill: if root { boxgray } else { white },
-      stroke: 0.8pt + (if root { kernelblue } else { rulegray }),
-      radius: 2pt,
-    )
-    content(pos, text(size: 8pt, label), anchor: "center")
-  }
-
-  let kernel = (240.0, 190.0)
-  let pyth = (40.0, 120.0)
-  let evenodd = (140.0, 120.0)
-  let cofn = (240.0, 120.0)
-  let dbl = (330.0, 120.0)
-  let recip = (430.0, 120.0)
-  let half = (330.0, 55.0)
-  let prodsum = (40.0, 55.0)
-  let sumprod = (40.0, 0.0)
-
-  for target in (pyth, evenodd, cofn, dbl, recip, prodsum) {
-    line(kernel, target, stroke: 0.6pt + rulegray, mark: (end: ">", scale: 0.6))
-  }
-  line(dbl, half, stroke: 0.6pt + rulegray, mark: (end: ">", scale: 0.6))
-  line(prodsum, sumprod, stroke: 0.6pt + rulegray, mark: (end: ">", scale: 0.6))
-
-  node(kernel, 100, [3 kernel facts], root: true)
-  node(pyth, 78, [$tan^2+1=sec^2$ \ $1+cot^2=csc^2$])
-  node(evenodd, 78, [even / odd \ formulas])
-  node(cofn, 78, [cofunction \ formulas])
-  node(dbl, 70, [double angle])
-  node(recip, 95, [tan, cot, sec, csc \ (definitions)])
-  node(half, 78, [half angle])
-  node(prodsum, 85, [product-to-sum])
-  node(sumprod, 85, [sum-to-product])
-})
-
-#pagebreak()
 
 = From the Kernel to the Rest
 
@@ -275,13 +226,13 @@ does to a point on the unit circle.
 
   $ cos(-theta) = x = cos(theta) quad quad sin(-theta) = -y = -sin(theta) $
 
-  In words: cosine is *even*, sine is *odd*. Let's sanity-check this isn't just symbol-pushing, using an
-  angle whose values we both know: at $theta = 30 degree$, $cos(30 degree) = sqrt(3)/2$ and
-  $cos(-30 degree) = sqrt(3)/2$ as well --- unchanged, exactly as "even" promises. Meanwhile
-  $sin(30 degree) = 1/2$ but $sin(-30 degree) = -1/2$ --- flipped sign, exactly as "odd" promises.
+  In words: cosine is *even*, sine is *odd*. Let's use a concrete angle whose values we both know:
+  at $theta = 30 degree$, $cos(30 degree) = sqrt(3)/2$ and $cos(-30 degree) = sqrt(3)/2$ as well ---
+  unchanged, exactly as "even" promises. Meanwhile $sin(30 degree) = 1/2$ but $sin(-30 degree) = -1/2$
+  --- flipped sign, exactly as "odd" promises.
 
   Everything else on this list requires no new geometry at all, just substitution into the ratio
-  definitions from #link(<the-kernel>, "the Kernel"). For instance:
+  definitions from #link(<the-kernel>, "1.1"). For instance:
 
   $ tan(-theta) = sin(-theta)/cos(-theta) = (-sin(theta))/cos(theta) = -tan(theta) $
 
@@ -340,14 +291,24 @@ which is exactly why $sin$ of one angle equals $cos$ of the other.
   $ cos(pi/2 - theta) = y = sin(theta) quad quad sin(pi/2 - theta) = x = cos(theta) $
 
   The remaining pairs, $sec arrow.l.r csc$ and $tan arrow.l.r cot$, follow immediately by plugging this
-  result into the ratio definitions back in 1.1 --- no new geometry, just booking.
+  result into the ratio definitions back in #link(<the-kernel>, "1.1") --- no new geometry, just booking.
 ]
 
 Take a classic $30$-$60$-$90$ triangle. The two acute angles, $30 degree$ and $60 degree$, are complements
 of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$. This matches the cofunction
-definition.
+definition. Use what you know to show that complement angles have a counterpart in the cofunction.
 
-#workspace(lines: 10)
+#v(24pt)
+
+#align(center)[
+  #canvas({
+    import draw: *
+    scale(400%);
+    line((0, 0), (1/2, 0), (0, 1), close: true);
+  })
+]
+
+#v(48pt)
 
 == Double angle formulas
 
@@ -356,7 +317,7 @@ exotic than a sum angle where the two pieces happen to be identical. If you can 
 handle $alpha + alpha$.
 
 #stepbox([Set $beta = alpha$ in the angle sum formulas])[
-  $ 2 alpha = alpha + beta $
+  $ 2 alpha = alpha + beta = alpha + alpha $
   $ sin(2 alpha) = sin(alpha + alpha) = sin(alpha)cos(alpha) + cos(alpha)sin(alpha) = 2 sin(alpha)cos(alpha) $
   $ cos(2 alpha) = cos(alpha + alpha) = cos(alpha)cos(alpha) - sin(alpha)sin(alpha) = cos^2 (alpha) - sin^2 (alpha) $
 
@@ -373,14 +334,14 @@ handle $alpha + alpha$.
   next, where this choice matters a lot.
 ]
 
+#pagebreak()
+
 #appbox([Where this is heading])[
   On its own, the double angle formula is handy for things like finding $sin(2x)$ given only $sin x$ and
   $cos x$. But its real payoff for integration shows up one section from now: solved the other way around,
   these same three equations become the "power-reducing" formulas that let you integrate $sin^2 x$ and
   $cos^2 x$ --- two integrals that show up constantly and that the power rule alone can't touch.
 ]
-
-#pagebreak()
 
 #workspace(lines: 11, title: [Try to derive the 4 double-angle identities for $cos(2 alpha)$ and $sin(2 alpha)$ yourself:])
 
@@ -408,6 +369,8 @@ an equation we already have.
   directly --- worth noticing since it avoids a square root entirely.
 ]
 
+#pagebreak()
+
 #appbox([Where this is useful: integrating $sin^2 x$])[
   This is arguably the single most common use of any identity on this entire page. Try to integrate
   $sin^2 x$ directly and you're stuck --- there's no power rule for trig functions, and nothing in our
@@ -419,11 +382,8 @@ an equation we already have.
     = x/2 - sin(2x)/4 + C $
 
   (That last piece uses a simple substitution $u = 2x$ along with the antiderivative of cosine.) Every time
-  you see $sin^2$ or $cos^2$ sitting inside an integral --- and you will see this often --- this is the
-  move.
+  you see $sin^2$ or $cos^2$ sitting inside an integral --- and you will see this often.
 ]
-
-#pagebreak()
 
 #workspace(lines: 10, title: [Try integrating $integral sin^2 x med d x$ with the half angle (power-reducing) formulas:])
 
@@ -441,6 +401,8 @@ is the sign sitting in front of the second piece: plus in the first equation, mi
 two equations differ only by a sign like that, adding or subtracting them is a reliable way to make one of
 the two pieces disappear entirely. That's the whole strategy here.
 
+#pagebreak()
+
 #stepbox([Add the two equations together, side by side])[
   Add left side to left side, and right side to right side:
 
@@ -452,10 +414,15 @@ the two pieces disappear entirely. That's the whole strategy here.
   $ sin(alpha + beta) + sin(alpha - beta) = 2 sin(alpha)cos(beta) $
 
   Divide both sides by $2$ and you've expressed the product $sin(alpha)cos(beta)$ as a sum of two sines ---
-  hence "product-to-sum." Let's double check this isn't just symbol-pushing, with $alpha = 60 degree,
+  hence "product-to-sum." Let's check with a concrete example, $alpha = 60 degree,
   beta = 30 degree$: the left side is $sin(90 degree) + sin(30 degree) = 1 + 0.5 = 1.5$, and the right side
   is $2 sin(60 degree)cos(30 degree) = 2 dot sqrt(3)/2 dot sqrt(3)/2 = 2 dot 3/4 = 1.5$. They match.
 ]
+
+Now do the subtraction case yourself, following the same routine. Subtract the two equations
+instead of adding them (first equation minus second), track which term cancels this time instead of the one
+that cancelled above, and see what product you end up isolating.
+#workspace(lines: 6)
 
 #pagebreak()
 
@@ -476,16 +443,9 @@ the two pieces disappear entirely. That's the whole strategy here.
   is literally what $3x$ and $x$ represent.
 ]
 
-Now do the subtraction case yourself, following the same routine. Subtract the two equations
-instead of adding them (first equation minus second), track which term cancels this time instead of the one
-that cancelled above, and see what product you end up isolating.
-#workspace(lines: 6)
-
-#pagebreak()
-
 == Sum-to-product formulas
 
-Worth being upfront about this one: unlike most of this page, sum-to-product formulas aren't something
+Unlike most of this page, sum-to-product formulas aren't something
 you'll reach for during integration nearly as often. They're more useful for _solving equations_ and
 recognizing hidden structure in a sum of trig terms. Still worth having, and it costs us nothing new ---
 it's the product-to-sum result from the previous page, but relabeled.
@@ -506,6 +466,8 @@ it's the product-to-sum result from the previous page, but relabeled.
   "I have $sin x + sin y$, can I write it as a product?" rather than the reverse.
 ]
 
+#pagebreak()
+
 #appbox([Where this is useful: solving an equation, not integrating one])[
   Suppose you need to solve $sin(5x) + sin(x) = 0$. Written as a sum, it's not obvious how to proceed. But
   rewrite the left side as a product using what we just derived (with $x arrow.r 5x, med y arrow.r x$):
@@ -521,7 +483,6 @@ it's the product-to-sum result from the previous page, but relabeled.
 #workspace(lines: 2)
 
 #pagebreak()
-
 
 = Antiderivatives: Same Idea, Different Kernel
 
