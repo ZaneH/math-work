@@ -41,7 +41,15 @@
   ]
 }
 #show math.equation.where(block: true): set align(center)
+#set math.equation(numbering: none)
 
+// Custom references
+#show ref: it => {
+  let eq = math.equation
+  let el = it.element
+  if el == none or el.func() != eq { return it }
+  link(el.location(), counter(eq).display(at: el.location()))
+}
 
 // ---- reusable components ----
 
@@ -107,12 +115,10 @@
 
 #emph[
   A word before you start: everything on a standard trig cheat sheet, and every antiderivative on a
-  standard calculus reference sheet, is downstream of a small handful of facts. That's genuinely good
-  news, because it means you're not memorizing forty formulas --- you're memorizing about eight, and
-  practicing turning the crank on the rest. This worksheet is meant to be worked, not read. Follow each
-  derivation with a pencil in hand, then cover it up and rebuild it yourself in the blank space provided.
-  Come back to it more than once over the next few weeks; the goal is for the crank-turning to become
-  automatic.
+  standard calculus reference sheet, is downstream of a small handful of facts. That means you're not
+  memorizing forty formulas --- you're memorizing about eight. This worksheet is meant to be worked,
+  not read. Follow each derivation more than once over the next few weeks; the goal is for the
+  associations to become automatic.
 ]
 
 #v(8pt)
@@ -202,7 +208,7 @@ function (cosine, cotangent, cosecant) pairs with the non-"co-" function that sh
 $ tan(theta) = sin(theta)/cos(theta), quad cot(theta) = cos(theta)/sin(theta), quad
   sec(theta) = 1/cos(theta), quad csc(theta) = 1/sin(theta) $
 
-== Pythagorean identities (the other two)
+== Pythagorean identities (the other two) <other-pyth-ids>
 
 We already have $sin^2 (theta) + cos^2 (theta) = 1$ in the kernel. The question is how to turn that single
 fact into the two cousins involving $tan, sec$ and $cot, csc$. The move is simple once you see it: divide
@@ -275,15 +281,15 @@ does to a point on the unit circle.
   $sin(30 degree) = 1/2$ but $sin(-30 degree) = -1/2$ --- flipped sign, exactly as "odd" promises.
 
   Everything else on this list requires no new geometry at all, just substitution into the ratio
-  definitions from @the-kernel. For instance:
+  definitions from #link(<the-kernel>, "the Kernel"). For instance:
 
   $ tan(-theta) = sin(-theta)/cos(-theta) = (-sin(theta))/cos(theta) = -tan(theta) $
 
   so tangent is odd too.
 ]
 
-#appbox([Where this is useful: killing a definite integral for free])[
-  Here's a genuinely useful shortcut this identity buys you. Suppose you're asked to evaluate
+#appbox([Where this is useful: solving a definite integral for free])[
+  Here's a useful shortcut this identity buys you. Suppose you're asked to evaluate
   $integral_(-pi)^(pi) sin(x) med d x$. You could grind through the antiderivative and evaluate at both
   endpoints --- or you could notice that $sin x$ is odd, and the interval $[-pi, pi]$ is symmetric about
   zero. Whatever area sine sweeps out above the axis on $(0, pi)$, it sweeps out an identical amount
@@ -295,12 +301,10 @@ does to a point on the unit circle.
 
 #pagebreak()
 
-Using the same substitution-into-1.1 approach as the $tan(-theta)$ example above, work out
+Using the same substitution approach as the $tan(-theta)$ example above, work out
 whether $csc theta$, $sec theta$, and $cot theta$ are each even or odd. Write out the substitution for all
-three, don't just guess the pattern.
-#workspace(lines: 6)
-
-#pagebreak()
+three.
+#workspace(lines: 10)
 
 == Cofunction formulas
 
@@ -340,16 +344,14 @@ which is exactly why $sin$ of one angle equals $cos$ of the other.
 ]
 
 Take a classic $30$-$60$-$90$ triangle. The two acute angles, $30 degree$ and $60 degree$, are complements
-of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$. This matches the confunction
+of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$. This matches the cofunction
 definition.
 
-#workspace(lines: 3)
-
-#pagebreak()
+#workspace(lines: 10)
 
 == Double angle formulas
 
-These fall directly out of the angle sum formulas in the kernel (1.3) --- a "double" angle is nothing more
+These fall directly out of the angle sum formulas in the kernel --- a "double" angle is nothing more
 exotic than a sum angle where the two pieces happen to be identical. If you can add $alpha + beta$, you can
 handle $alpha + alpha$.
 
@@ -378,15 +380,15 @@ handle $alpha + alpha$.
   $cos^2 x$ --- two integrals that show up constantly and that the power rule alone can't touch.
 ]
 
-#workspace(lines: 3, title: [Try to derive the 4 double-angle identities for $cos(2 alpha)$ and $sin(2 alpha)$ yourself:])
-
 #pagebreak()
+
+#workspace(lines: 11, title: [Try to derive the 4 double-angle identities for $cos(2 alpha)$ and $sin(2 alpha)$ yourself:])
 
 == Half angle (power-reducing) formulas
 
 Here's the idea in one sentence: everything we just derived for $cos(2 alpha)$ can be read _backward_ to
-solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're not introducing any new mathematics here
---- just isolating a different variable in an equation we already have.
+solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're just isolating a different variable in
+an equation we already have.
 
 #stepbox([Solve the double-angle forms for $sin^2 (alpha)$ and $cos^2 (alpha)$])[
   Using the double-angle identity $cos(2 alpha) = 1 - 2 sin^2 (alpha)$ from the previous page, we isolate $sin^2 (alpha)$.
@@ -421,11 +423,11 @@ solve for $sin^2 (alpha)$ and $cos^2 (alpha)$ individually. We're not introducin
   move.
 ]
 
-#workspace(lines: 5)
-
 #pagebreak()
 
-== Product-to-sum formulas
+#workspace(lines: 10, title: [Try integrating $integral sin^2 x med d x$ with the half angle (power-reducing) formulas:])
+
+== Product-to-sum formulas <product-to-sum>
 
 This is the section that trips people up most often, so let's go slow. The angle sum and angle difference
 formulas for sine share two ingredients:
@@ -433,7 +435,7 @@ formulas for sine share two ingredients:
 $ sin(alpha + beta) = sin(alpha)cos(beta) + cos(alpha)sin(beta) $
 $ sin(alpha - beta) = sin(alpha)cos(beta) - cos(alpha)sin(beta) $
 
-Stare at those two right-hand sides for a moment. They're built from the exact same two pieces,
+Look carefully at the two right-hand sides for a moment. They're built from the exact same two pieces,
 $sin(alpha)cos(beta)$ and $cos(alpha)sin(beta)$ --- the only thing that differs between the two equations
 is the sign sitting in front of the second piece: plus in the first equation, minus in the second. Whenever
 two equations differ only by a sign like that, adding or subtracting them is a reliable way to make one of
@@ -455,6 +457,8 @@ the two pieces disappear entirely. That's the whole strategy here.
   is $2 sin(60 degree)cos(30 degree) = 2 dot sqrt(3)/2 dot sqrt(3)/2 = 2 dot 3/4 = 1.5$. They match.
 ]
 
+#pagebreak()
+
 #appbox([Where this is useful: integrating a product of two different frequencies])[
   Suppose you're asked to integrate $sin(3x)cos(x)$. There's no product rule for integration, and
   $u$-substitution doesn't obviously apply either, since neither factor is the derivative of the other. But
@@ -472,7 +476,7 @@ the two pieces disappear entirely. That's the whole strategy here.
   is literally what $3x$ and $x$ represent.
 ]
 
-Now do the subtraction case yourself, following the same steps. Subtract the two equations
+Now do the subtraction case yourself, following the same routine. Subtract the two equations
 instead of adding them (first equation minus second), track which term cancels this time instead of the one
 that cancelled above, and see what product you end up isolating.
 #workspace(lines: 6)
@@ -484,7 +488,7 @@ that cancelled above, and see what product you end up isolating.
 Worth being upfront about this one: unlike most of this page, sum-to-product formulas aren't something
 you'll reach for during integration nearly as often. They're more useful for _solving equations_ and
 recognizing hidden structure in a sum of trig terms. Still worth having, and it costs us nothing new ---
-it's the product-to-sum result from the previous page, just relabeled.
+it's the product-to-sum result from the previous page, but relabeled.
 
 #stepbox([Let $alpha = (x+y)/2$ and $beta = (x-y)/2$])[
   This substitution looks unmotivated until you check what it does to $alpha + beta$ and $alpha - beta$:
@@ -493,13 +497,13 @@ it's the product-to-sum result from the previous page, just relabeled.
     alpha - beta = (x+y)/2 - (x-y)/2 = (2y)/2 = y $
 
   So this particular substitution was chosen specifically so that $alpha + beta$ and $alpha - beta$ come out
-  to clean, simple values --- $x$ and $y$ themselves. Now take the product-to-sum result from 1.7,
+  to clean, simple values --- $x$ and $y$ themselves. Now take the product-to-sum result from @product-to-sum,
   $2 sin(alpha)cos(beta) = sin(alpha+beta) + sin(alpha-beta)$, and substitute:
 
   $ 2 sin((x+y)/2) cos((x-y)/2) = sin(x) + sin(y) $
 
   No new algebra happened here --- we just relabeled the same fact so that it directly answers the question
-  "I have $sin x + sin y$, can I write it as a product?" rather than the reverse question 1.7 answered.
+  "I have $sin x + sin y$, can I write it as a product?" rather than the reverse.
 ]
 
 #appbox([Where this is useful: solving an equation, not integrating one])[
@@ -526,67 +530,76 @@ underlying philosophy is identical. A big scary-looking list of antiderivative f
 short list of _derivatives_ you already know, read from right to left.
 
 #kernelbox[
-  The relevant kernel here is the six trig derivatives you should already have solid from differential
-  calculus:
+  The relevant kernel here is the six trig derivatives you should be familiar with:
 
   $ d/(d x) sin(x) = cos(x), quad d/(d x) cos(x) = -sin(x), quad d/(d x) tan(x) = sec^2 (x), $
   $ d/(d x) cot(x) = -csc^2 (x), quad d/(d x) sec(x) = sec(x)tan(x), quad d/(d x) csc(x) = -csc(x)cot(x) $
 ]
 
-== Read backward: 8 of the 14 formulas
+== Read backwards
 
 An antiderivative is really just an answer to the question "what function has this as its derivative?" If
-the six facts above are already second nature to you, the six antiderivatives below aren't new information
-at all --- they're the same fact, viewed from the other direction.
+the six facts above are already second nature to you, the six antiderivatives below aren't new information.
 
-#stepbox([From $d/(d x) sin(x) = cos(x)$])[
-  $ integral cos(x) med d x = sin(x) + C $
-]
-#stepbox([From $d/(d x) cos(x) = -sin(x)$])[
-  $ integral sin(x) med d x = -cos(x) + C $
-]
-#stepbox([From $d/(d x) tan(x) = sec^2 (x)$])[
-  $ integral sec^2 (x) med d x = tan(x) + C $
-]
-#stepbox([From $d/(d x) cot(x) = -csc^2 (x)$])[
-  $ integral csc^2 (x) med d x = -cot(x) + C $
-]
-#stepbox([From $d/(d x) sec(x) = sec(x)tan(x)$])[
-  $ integral sec(x)tan(x) med d x = sec(x) + C $
-]
-#stepbox([From $d/(d x) csc(x) = -csc(x)cot(x)$])[
-  $ integral csc(x)cot(x) med d x = -csc(x) + C $
-]
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 8pt,
+  grid.cell(
+    stepbox([From $d/(d x) sin(x) = cos(x)$])[
+      $ integral cos(x) med d x = sin(x) + C $
+    ],
+  ),
+  grid.cell(
+    stepbox([From $d/(d x) cos(x) = -sin(x)$])[
+      $ integral sin(x) med d x = -cos(x) + C $
+    ]
+  ),
+  grid.cell(
+    stepbox([From $d/(d x) tan(x) = sec^2 (x)$])[
+      $ integral sec^2 (x) med d x = tan(x) + C $
+    ]
+  ),
+  grid.cell(
+    stepbox([From $d/(d x) cot(x) = -csc^2 (x)$])[
+      $ integral csc^2 (x) med d x = -cot(x) + C $
+    ]
+  ),
+  grid.cell(
+    stepbox([From $d/(d x) sec(x) = sec(x)tan(x)$])[
+      $ integral sec(x)tan(x) med d x = sec(x) + C $
+    ]
+  ),
+  grid.cell(
+    stepbox([From $d/(d x) csc(x) = -csc(x)cot(x)$])[
+      $ integral csc(x)cot(x) med d x = -csc(x) + C $
+    ]
+  )
+)
 
-Recognizing these patterns saves real time on an exam: the moment you see $sec(x)tan(x)$ sitting inside an
-integral, you shouldn't need to work anything out --- it should just trigger "$sec(x) + C$" immediately, the
+Recognizing these patterns saves real time: the moment you see $sec(x)tan(x)$ sitting inside an
+integral, you shouldn't need to work anything out --- it should trigger "$sec(x) + C$" immediately, the
 same way seeing $2x$ next to $x^2$ triggers a power-rule reflex.
 
-Rounding out the full list of 14: $integral e^x med d x = e^x + C$ (a function that's its own derivative),
-$integral a^x med d x = a^x/ln(a) + C$ (chain rule applied to $a^x = e^(x ln a)$),
-$integral 1/x med d x = ln|x| + C$, and $integral x^n med d x = x^(n+1)/(n+1) + C$ (the power rule,
-reversed). That's all 8 straightforward ones covered.
+#pagebreak()
 
-== Inverse trig antiderivatives --- derive, don't memorize
+== Inverse trig antiderivatives
 
-These two look the most intimidating on a typical reference sheet, with square roots and squared variables
-sitting in the denominator. But they fall out of a technique you're already learning right now in your
-differential calculus course --- implicit differentiation --- combined with a single substitution from the
-Pythagorean identity. Nothing here is new machinery.
+To find the antiderivative of an inverse trig function (e.g. $integral tan^-1(x)$) we can use implicit
+differentiation.
 
 #stepbox([Implicit differentiation of $y = tan^(-1) (x)$, i.e. $x = tan(y)$])[
-  Start from the equivalent statement $x = tan(y)$, and differentiate _both sides_ with respect to $x$,
+  Start from the inverse $x = tan(y)$, and differentiate _both sides_ with respect to $x$,
   remembering that $y$ is secretly a function of $x$ (that's what makes this "implicit"):
 
   $ 1 = sec^2 (y) dot (d y)/(d x) $
 
   The right-hand side still has a $y$ hiding in it, and we'd much rather have everything in terms of $x$.
-  This is exactly where the Pythagorean identity from 1.2 earns its keep: $sec^2 (y) = 1 + tan^2 (y)$, and
-  we already know $tan(y) = x$ from how we set the problem up, so
+  This is where the Pythagorean identity from @other-pyth-ids is useful: $sec^2 (y) = 1 + tan^2 (y)$, and
+  we already know $tan(y) = x$ from how we set the problem up, so we know that
 
   $ sec^2 (y) = 1 + x^2 $
 
-  Substitute that back in and solve for $(d y)/(d x)$:
+  Substitute that back in for $sec^2(y)$ and solve for $(d y)/(d x)$:
 
   $ (d y)/(d x) = 1/(1+x^2) quad arrow.r.double quad integral 1/(1+x^2) med d x = tan^(-1) (x) + C $
 ]
@@ -599,22 +612,16 @@ Pythagorean identity. Nothing here is new machinery.
   how those problems get finished off.
 ]
 
-#workspace(lines: 4)
-Your turn: run the identical argument on $y = sin^(-1) (x)$, i.e. $x = sin(y)$. Differentiate implicitly to
-get $1 = cos(y) dot (d y)/(d x)$, then use the Pythagorean identity in the form
-$cos(y) = sqrt(1 - sin^2 (y)) = sqrt(1-x^2)$ to eliminate $y$ entirely, and finally solve for
-$(d y)/(d x)$. You should land on $integral 1/sqrt(1-x^2) med d x = sin^(-1) (x) + C$ --- write out every
-step rather than jumping to it.
+Your turn: run the identical argument on $y = sin^(-1) (x)$, i.e. $x = sin(y)$. You should land on $integral 1/sqrt(1-x^2) med d x = sin^(-1) (x) + C$
+
 #workspace(lines: 7)
 
 #pagebreak()
 
 == The two honest exceptions: $integral sec(x) med d x$ and $integral csc(x) med d x$
 
-Time for some honesty: unlike literally everything else on this worksheet, these two really are a
-memorized trick rather than something most people would spontaneously reinvent. The technique is
-multiplying by a disguised form of $1$ --- and it's worth working through carefully once so it stops
-feeling like a magic trick, even if it never quite reaches the "obvious" status the rest of this page does.
+These two really are a memorized trick rather than something most people would spontaneously reinvent.
+The technique is multiplying by a disguised form of $1$.
 
 #stepbox([Multiply by $(sec(x)+tan(x))/(sec(x)+tan(x))$])[
   $ integral sec(x) med d x = integral sec(x) dot (sec(x)+tan(x))/(sec(x)+tan(x)) med d x
@@ -635,17 +642,4 @@ feeling like a magic trick, even if it never quite reaches the "obvious" status 
   $sqrt(x^2+a^2)$, you'll set $x = a tan(theta)$, and partway through nearly every one of those problems
   you'll find yourself needing exactly $integral sec(theta) med d theta$. It won't feel like a coincidence
   once you get there --- it's this same integral, wearing a different problem's clothes.
-]
-
-#v(16pt)
-#align(center)[
-  #line(length: 50%, stroke: 0.4pt)
-]
-#align(center)[
-  #text(size: 9.5pt, style: "italic")[
-    Practice loop: cover this page, rewrite the 3 trig facts plus the 6 derivative facts from memory, then
-    re-derive every boxed result --- and try to reconstruct the worked "where this earns its keep" example
-    too, not just the identity itself. Repeat this over several sittings, spaced a few days apart, rather
-    than all in one go; that spacing is what actually moves things into long-term memory.
-  ]
 ]
