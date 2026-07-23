@@ -103,6 +103,10 @@
   }
 }
 
+#let blanks(space) = {
+  box(width: space, stroke: (bottom: 0.5pt))
+}
+
 // ---- title ----
 
 #align(center)[
@@ -294,21 +298,42 @@ which is exactly why $sin$ of one angle equals $cos$ of the other.
   result into the ratio definitions back in #link(<the-kernel>, "1.1") --- no new geometry, just booking.
 ]
 
-Take a classic $30$-$60$-$90$ triangle. The two acute angles, $30 degree$ and $60 degree$, are complements
-of each other. Sure enough: $sin(30 degree) = 1/2$ and $cos(60 degree) = 1/2$. This matches the cofunction
-definition. Use what you know to show that complement angles have a counterpart in the cofunction.
-
-#v(24pt)
+Label the sides and angles of the $30$-$60$-$90$ triangle below. Then fill in each blank using your labels
+--- the goal is to see concretely that the trig value of each acute angle equals the cofunction value of the other.
 
 #align(center)[
   #canvas({
     import draw: *
-    scale(400%);
+
+    scale(400%)
     line((0, 0), (1/2, 0), (0, 1), close: true);
   })
 ]
 
-#v(48pt)
+#v(24pt)
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 8pt,
+  row-gutter: 24pt,
+  grid.cell(
+    [$sin(30 degree) = $ #blanks(4em) $= cos(#blanks(3em) degree)$]
+  ),
+  grid.cell(
+    [$cos(30 degree) = $ #blanks(4em) $= sin(#blanks(3em) degree)$]
+  ),
+  grid.cell(
+    [$tan(30 degree) = $ #blanks(4em) $= cot(#blanks(3em) degree)$]
+  ),
+  grid.cell(
+    [$sin(60 degree) = $ #blanks(4em) $= cos(#blanks(3em) degree)$]
+  ),
+)
+
+#v(12pt)
+
+In general: for any angle $theta$, $sin(theta) = cos(#blanks(2em))$ and
+$tan(theta) = cot(#blanks(2em))$.
 
 == Double angle formulas
 
@@ -381,11 +406,15 @@ an equation we already have.
     = 1/2 integral 1 med d x - 1/2 integral cos(2x) med d x
     = x/2 - sin(2x)/4 + C $
 
-  (That last piece uses a simple substitution $u = 2x$ along with the antiderivative of cosine.) Every time
-  you see $sin^2$ or $cos^2$ sitting inside an integral --- and you will see this often.
+  For that second integral, let $u = 2x$, so $d u = 2 med d x$ and $d x = d u \/ 2$:
+
+  $ 1/2 integral cos(2x) med d x = 1/2 integral cos(u) dot (d u)/2 = 1/4 sin(u) = sin(2x)/4 $
+
+  Putting it together: $integral sin^2 x med d x = x/2 - sin(2x)/4 + C$. Every time you see $sin^2$ or
+  $cos^2$ sitting inside an integral --- and you will see this often.
 ]
 
-#workspace(lines: 10, title: [Try integrating $integral sin^2 x med d x$ with the half angle (power-reducing) formulas:])
+#workspace(lines: 12, title: [Use the power-reducing formula to evaluate $integral cos^2 x med d x$. Follow the same steps as the $sin^2 x$ example above, including the $u$-substitution.])
 
 == Product-to-sum formulas <product-to-sum>
 
@@ -422,7 +451,9 @@ the two pieces disappear entirely. That's the whole strategy here.
 Now do the subtraction case yourself, following the same routine. Subtract the two equations
 instead of adding them (first equation minus second), track which term cancels this time instead of the one
 that cancelled above, and see what product you end up isolating.
-#workspace(lines: 6)
+
+#workspace(lines: 7, title: [Use the product-to-sum formula to evaluate $integral cos(5x)cos(x) med d x$.
+_Hint: you will need the cosine version of the product-to-sum formula, which you derived in the workspace above._])
 
 #pagebreak()
 
@@ -431,7 +462,9 @@ that cancelled above, and see what product you end up isolating.
   $u$-substitution doesn't obviously apply either, since neither factor is the derivative of the other. But
   rewrite the product using what we just derived (with $alpha = 3x, beta = x$):
 
-  $ sin(3x)cos(x) = 1/2 [sin(4x) + sin(2x)] $
+  Setting $alpha = 3x$ and $beta = x$ gives $alpha + beta = 4x$ and $alpha - beta = 2x$, so:
+
+  $ sin(3x)cos(x) = 1/2 [sin(3x + x) + sin(3x - x)] = 1/2 [sin(4x) + sin(2x)] $
 
   and now it's just a sum of two things we already know how to integrate:
 
@@ -480,7 +513,8 @@ it's the product-to-sum result from the previous page, but relabeled.
   sheet.
 ]
 
-#workspace(lines: 2)
+#workspace(lines: 7, title: [Solve $cos(4x) + cos(2x) = 0$ on the interval $[0, 2pi)$.
+_Hint: use the sum-to-product formula for cosine to rewrite the left side as a product, then apply the zero-product property._])
 
 #pagebreak()
 
