@@ -332,8 +332,8 @@ Label the sides and angles of the $30$-$60$-$90$ triangle below. Then fill in ea
 
 #v(12pt)
 
-In general: for any angle $theta$, $sin(theta) = cos(#blanks(2em))$ and
-$tan(theta) = cot(#blanks(2em))$.
+In general: for any angle $theta$, $sin(theta) = cos(#blanks(4em))$ and
+$tan(theta) = cot(#blanks(4em))$.
 
 == Double angle formulas
 
@@ -453,7 +453,7 @@ instead of adding them (first equation minus second), track which term cancels t
 that cancelled above, and see what product you end up isolating.
 
 #workspace(lines: 7, title: [Use the product-to-sum formula to evaluate $integral cos(5x)cos(x) med d x$.
-_Hint: you will need the cosine version of the product-to-sum formula, which you derived in the workspace above._])
+Hint: you will need the cosine version of the product-to-sum formula, which you derived in the workspace above.])
 
 #pagebreak()
 
@@ -514,7 +514,7 @@ it's the product-to-sum result from the previous page, but relabeled.
 ]
 
 #workspace(lines: 7, title: [Solve $cos(4x) + cos(2x) = 0$ on the interval $[0, 2pi)$.
-_Hint: use the sum-to-product formula for cosine to rewrite the left side as a product, then apply the zero-product property._])
+Hint: use the sum-to-product formula for cosine to rewrite the left side as a product, then apply the zero-product property.])
 
 #pagebreak()
 
