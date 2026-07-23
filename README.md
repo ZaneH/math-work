@@ -8,7 +8,7 @@ A collection of math worksheets and (eventually) other stuff.
 
 | Link | Description |
 |:-----|:------------|
-| [↗](./trig/trig-and-antiderivatives-worksheet.typ) | **Trig identities and antiderivatives** — derive everything from a small kernel of facts rather than memorizing forty formulas |
+| [↗](./trig/trig-and-antiderivatives-worksheet.pdf) | **Trig identities and antiderivatives** — derive everything from a small kernel of facts rather than memorizing forty formulas |
 
 ## Nix / Flake Users
 
