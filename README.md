@@ -6,9 +6,7 @@ A collection of math worksheets and (eventually) other stuff.
 
 ### Trig
 
-| Link | Description |
-|:-----|:------------|
-| [↗](./trig/trig-and-antiderivatives-worksheet.pdf) | **Trig identities and antiderivatives** — derive everything from a small kernel of facts rather than memorizing forty formulas |
+- [Trig Identities & Antiderivatives](./worksheets/trig-identities-and-antiderivatives/trig-identities-and-antiderivatives.pdf): Learn trig identities through a small kernel of facts rather than memorizing every formula.
 
 ## Nix / Flake Users
 
